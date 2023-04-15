@@ -146,19 +146,16 @@ describe("NFTStaking", function () {
       const InvalidERC721 = await ethers.getContractFactory("StakingERC721");
       const invalidERC721 = await InvalidERC721.deploy();
       await invalidERC721.deployed();
-    
+
       // Mint a new NFT on the invalid ERC721 contract
       await invalidERC721.connect(addr1).mintNFT(addr1.address);
       const invalidTokenId = (await invalidERC721.currentTokenId()).sub(1);
-    
+
       // Attempt to call onERC721Received with the invalid ERC721 contract
       await expect(
-        nftStaking.connect(addr1).onERC721Received(
-          addr1.address,
-          addr1.address,
-          invalidTokenId,
-          "0x"
-        )
+        nftStaking
+          .connect(addr1)
+          .onERC721Received(addr1.address, addr1.address, invalidTokenId, "0x")
       ).to.be.revertedWith("Invalid token");
     });
 
@@ -166,48 +163,43 @@ describe("NFTStaking", function () {
       // Mint an NFT to addr1 but don't stake it
       await stakingERC721.connect(addr1).mintNFT(addr1.address);
       const nonStakedTokenId = (await stakingERC721.currentTokenId()).sub(1);
-    
-      await expect(nftStaking.connect(addr1).claimRewards(nonStakedTokenId)).to.be.revertedWith("Not owner of the staked NFT");
+
+      await expect(
+        nftStaking.connect(addr1).claimRewards(nonStakedTokenId)
+      ).to.be.revertedWith("Not owner of the staked NFT");
     });
-    
-    
-    
-    
-    // it("Should fail if claimRewards is called with a failed ERC20 token transfer", async function () {
-    //   await stakingERC721.connect(addr1).mintNFT(addr1.address);
-    //   await stakingERC721
-    //     .connect(addr1)
-    //     ["safeTransferFrom(address,address,uint256)"](
-    //       addr1.address,
-    //       nftStaking.address,
-    //       tokenId
-    //     );
-    //   await ethers.provider.send("evm_increaseTime", [REWARD_INTERVAL]);
-    //   await ethers.provider.send("evm_mine");
-    
-    //   // Set the allowance for the NFTStaking contract to 0 to cause the transfer to fail
-    //   await stakingERC20.connect(addr1).approve(nftStaking.address, 0);
-    
-    //   await expect(nftStaking.connect(addr1).claimRewards(tokenId)).to.be.revertedWith("Transfer failed");
-    // });
+
+    it("Should revert if caller is not the owner of the staked NFT", async function () {
+      await stakingERC721.connect(addr1).mintNFT(addr1.address);
+      const tokenId = (await stakingERC721.currentTokenId()).sub(1);
+      await stakingERC721
+        .connect(addr1)
+        ["safeTransferFrom(address,address,uint256)"](
+          addr1.address,
+          nftStaking.address,
+          tokenId
+        );
+      await expect(
+        nftStaking.connect(addr2).claimRewards(tokenId)
+      ).to.be.revertedWith("Not owner of the staked NFT");
+    });
   });
 
   describe("mintERC20", () => {
     it("should mint the specified amount of ERC20 tokens to the caller", async () => {
       const amountToMint = ethers.utils.parseEther("1000");
-  
+
       // Check the caller's balance before minting
       const initialBalance = await stakingERC20.balanceOf(addr1.address);
-  
+
       // Mint ERC20 tokens
       await nftStaking.connect(addr1).mintERC20(amountToMint);
-  
+
       // Check the caller's balance after minting
       const finalBalance = await stakingERC20.balanceOf(addr1.address);
-  
+
       // Assert that the final balance is the initial balance plus the minted amount
       expect(finalBalance.sub(initialBalance)).to.equal(amountToMint);
     });
   });
-  
 });
