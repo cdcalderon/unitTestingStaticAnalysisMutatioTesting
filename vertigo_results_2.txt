@@ -1,0 +1,89 @@
+vertigo run --hardhat-parallel 8                                                               
+[*] Starting mutation testing
+[*] Starting analysis on project
+[*] Initializing campaign run 
+[*] Checking validity of project
+[+] The project is valid
+[*] Storing compilation results
+[*] Running analysis on 90 mutants
+100%|█████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 90/90 [10:56<00:00,  7.30s/mutant]
+[*] Done with campaign run
+[+] Report:
+Mutation testing report:
+Number of mutations:    90
+Killed:                 0 / 90
+
+Mutations:
+
+[+] Survivors
+Mutation:
+    File: /Users/ccalderon/Documents/rareskills/week3/unitTestingStaticAnalysisMutatioTesting/contracts/StakingAndRewards/NFTStaking.sol
+    Line nr: 33
+    Result: Lived
+    Original line:
+              * @dev Receives an ERC721 token, adds the staker to the mapping and marks the current time as the last claimed time.
+
+    Mutated line:
+              * @dev Receives an ERC721 token, adds trks the current time as the last claimed time.
+
+Mutation:
+    File: /Users/ccalderon/Documents/rareskills/week3/unitTestingStaticAnalysisMutatioTesting/contracts/StakingAndRewards/NFTStaking.sol
+    Line nr: 50
+    Result: Lived
+    Original line:
+              *      The reward can only be claimed if the caller is the owner of the staked NFT and if the claim interval has passed.
+
+    Mutated line:
+              *      The reward can only be claimed if the caller is the owner of the staked NFT and if the claim intr fix: https://github.com/crytic/slither/wiki/Detector-Documentation#unchecked-transfer
+
+Mutation:
+    File: /Users/ccalderon/Documents/rareskills/week3/unitTestingStaticAnalysisMutatioTesting/contracts/StakingAndRewards/NFTStaking.sol
+    Line nr: 51
+    Result: Lived
+    Original line:
+              * Slither fix: https://github.com/crytic/slither/wiki/Detector-Documentation#unchecked-transfer
+
+    Mutated line:
+              * Slither fix: https://gitector-Documentation#unchecked-transfer
+
+Mutation:
+    File: /Users/ccalderon/Documents/rareskills/week3/unitTestingStaticAnalysisMutatioTesting/contracts/StakingAndRewards/NFTStaking.sol
+    Line nr: 53
+    Result: Lived
+    Original line:
+             // function claimRewards(uint256 tokenId) external nonReentrant {
+
+    Mutated line:
+             // functio external nonReentrant {
+
+Mutation:
+    File: /Users/ccalderon/Documents/rareskills/week3/unitTestingStaticAnalysisMutatioTesting/contracts/StakingAndRewards/NFTStaking.sol
+    Line nr: 62
+    Result: Lived
+    Original line:
+             //     stake.lastClaimed += REWARD_INTERVAL;
+
+    Mutated line:
+             //     stake.lastClaimed erc20Token.transfer(msg.sender, REWARD_AMOUNT);
+
+Mutation:
+    File: /Users/ccalderon/Documents/rareskills/week3/unitTestingStaticAnalysisMutatioTesting/contracts/StakingAndRewards/NFTStaking.sol
+    Line nr: 63
+    Result: Lived
+    Original line:
+             //     erc20Token.transfer(msg.sender, REWARD_AMOUNT);
+
+    Mutated line:
+             //     erc20Token.transfe   // }
+
+Mutation:
+    File: /Users/ccalderon/Documents/rareskills/week3/unitTestingStaticAnalysisMutatioTesting/contracts/StakingAndRewards/NFTStaking.sol
+    Line nr: 98
+    Result: Lived
+    Original line:
+              * @dev Mints ERC20 tokens to the caller.
+
+    Mutated line:
+          o the caller.
+
+[*] Done! 
