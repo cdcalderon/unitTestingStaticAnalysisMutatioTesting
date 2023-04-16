@@ -32,6 +32,35 @@ describe("StakingERC721", function () {
       await stakingERC721.mintNFT(addr1.address);
       expect(await stakingERC721.ownerOf(1)).to.equal(addr1.address);
     });
+
+    it("Should return the correct current token ID after minting", async function () {
+      expect(await stakingERC721.currentTokenId()).to.equal(0);
+
+      await stakingERC721.mintNFT(addr1.address);
+      expect(await stakingERC721.currentTokenId()).to.equal(1);
+
+      await stakingERC721.mintNFT(addr1.address);
+      expect(await stakingERC721.currentTokenId()).to.equal(2);
+
+      await stakingERC721.mintNFT(deployer.address);
+      expect(await stakingERC721.currentTokenId()).to.equal(3);
+    });
+
+    it("should revert when non-owner attempts to mint NFT", async () => {
+      await expect(
+        stakingERC721.connect(addr1).mintNFT(addr1.address)
+      ).to.be.revertedWith("Ownable: caller is not the owner");
+    });
+
+    it("should allow the contract owner to mint an NFT with a specific tokenId", async () => {
+      const EXPECTED_TOKENID = 2;
+      for (let i = 0; i < 3; i++) {
+        await stakingERC721.connect(deployer).mintNFT(deployer.address);
+      }
+      expect(await stakingERC721.ownerOf(EXPECTED_TOKENID)).to.be.equal(
+        deployer.address
+      );
+    });
   });
 
   describe("Transferring NFTs", function () {

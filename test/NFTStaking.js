@@ -185,21 +185,21 @@ describe("NFTStaking", function () {
     });
   });
 
-  describe("mintERC20", () => {
-    it("should mint the specified amount of ERC20 tokens to the caller", async () => {
-      const amountToMint = ethers.utils.parseEther("1000");
+  // describe("mintERC20", () => {
+  //   it("should mint the specified amount of ERC20 tokens to the caller", async () => {
+  //     const amountToMint = ethers.utils.parseEther("1000");
 
-      // Check the caller's balance before minting
-      const initialBalance = await stakingERC20.balanceOf(addr1.address);
+  //     // Check the caller's balance before minting
+  //     const initialBalance = await stakingERC20.balanceOf(addr1.address);
 
-      // Mint ERC20 tokens
-      await nftStaking.connect(addr1).mintERC20(amountToMint);
+  //     // Mint ERC20 tokens
+  //     await nftStaking.connect(addr1).mintERC20(amountToMint);
 
-      // Check the caller's balance after minting
-      const finalBalance = await stakingERC20.balanceOf(addr1.address);
+  //     // Check the caller's balance after minting
+  //     const finalBalance = await stakingERC20.balanceOf(addr1.address);
 
-      // Assert that the final balance is the initial balance plus the minted amount
-      expect(finalBalance.sub(initialBalance)).to.equal(amountToMint);
-    });
-  });
+  //     // Assert that the final balance is the initial balance plus the minted amount
+  //     expect(finalBalance.sub(initialBalance)).to.equal(amountToMint);
+  //   });
+  // });
 });

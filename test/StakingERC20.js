@@ -35,18 +35,27 @@ describe("StakingERC20", function () {
   });
 
   describe("Minting tokens", function () {
-    it("Should mint tokens to the specified address", async function () {
+    it("should mint tokens to a specified recipient", async function () {
+      const recipient = addr1.address;
       const mintAmount = ethers.utils.parseEther("100");
-      await stakingERC20.mint(addr1.address, mintAmount);
-      expect(await stakingERC20.balanceOf(addr1.address)).to.equal(mintAmount);
+
+      await stakingERC20.connect(deployer).mint(recipient, mintAmount);
+
+      expect(await stakingERC20.balanceOf(recipient)).to.equal(mintAmount);
     });
 
     it("Should increase the total supply when minting", async function () {
       const mintAmount = ethers.utils.parseEther("100");
-      await stakingERC20.mint(addr1.address, mintAmount);
+      await stakingERC20.connect(deployer).mint(addr1.address, mintAmount);
       expect(await stakingERC20.totalSupply()).to.equal(
         initialSupply.add(mintAmount)
       );
+    });
+
+    it("should revert when non-owner attempts to mint", async () => {
+      await expect(
+        stakingERC20.connect(addr1).mint(addr1.address, 10)
+      ).to.be.revertedWith("Ownable: caller is not the owner");
     });
   });
 
