@@ -1,0 +1,59 @@
+ccalderon@Loreins-MacBook-Pro unitTestingStaticAnalysisMutatioTesting % vertigo run --hardhat-parallel 8
+[*] Starting mutation testing
+[*] Starting analysis on project
+[*] Initializing campaign run 
+[*] Checking validity of project
+[+] The project is valid
+[*] Storing compilation results
+[*] Running analysis on 39 mutants
+100%|████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 39/39 [07:14<00:00, 11.13s/mutant]
+[*] Done with campaign run
+[+] Report:
+Mutation testing report:
+Number of mutations:    39
+Killed:                 31 / 39
+
+Mutations:
+
+[+] Survivors
+Mutation:
+    File: /Users/ccalderon/Documents/rareskills/week3/unitTestingStaticAnalysisMutatioTesting/contracts/StakingAndRewards/NFTStaking.sol
+    Line nr: 71
+    Result: Lived
+    Original line:
+                     stake.lastClaimed + REWARD_INTERVAL <= block.timestamp,
+
+    Mutated line:
+                     stake.lastClaimed + REWARD_INTERVAL < block.timestamp,
+
+Mutation:
+    File: /Users/ccalderon/Documents/rareskills/week3/unitTestingStaticAnalysisMutatioTesting/contracts/StakingAndRewards/NFTStaking.sol
+    Line nr: 75
+    Result: Lived
+    Original line:
+                 stake.lastClaimed += REWARD_INTERVAL;
+
+    Mutated line:
+                 stake.lastClaimed -= REWARD_INTERVAL;
+
+Mutation:
+    File: /Users/ccalderon/Documents/rareskills/week3/unitTestingStaticAnalysisMutatioTesting/contracts/StakingAndRewards/NFTStaking.sol
+    Line nr: 66
+    Result: Lived
+    Original line:
+             function claimRewards(uint256 tokenId) external nonReentrant {
+
+    Mutated line:
+             function claimRewards(uint256 tokenId) external  {
+
+Mutation:
+    File: /Users/ccalderon/Documents/rareskills/week3/unitTestingStaticAnalysisMutatioTesting/contracts/StakingAndRewards/NFTStaking.sol
+    Line nr: 87
+    Result: Lived
+    Original line:
+             function unstake(uint256 tokenId) external nonReentrant {
+
+    Mutated line:
+             function unstake(uint256 tokenId) external  {
+
+[*] Done! 
